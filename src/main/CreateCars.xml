@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="Test Creating cars" data-provider-thread-count="7">
+    <test name="Check create cars">
+        <classes>
+            <class name="TestParking"/>
+        </classes>
+    </test>
+</suite>

@@ -1,32 +1,27 @@
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Parking {
 
-    private ArrayList<ParkingPlace> parkingPlaces = new ArrayList<ParkingPlace>();
+    private Map<ParkingPlace, Boolean> parkingPlaces = new HashMap<ParkingPlace, Boolean>();
     public static final int QUANTITY_PLACES = 5;
 
     public Parking() {
-        parkingPlaces.add(new ParkingPlace(1));
-        parkingPlaces.add(new ParkingPlace(2));
-        parkingPlaces.add(new ParkingPlace(3));
-        parkingPlaces.add(new ParkingPlace(4));
-        parkingPlaces.add(new ParkingPlace(5));
+        for(int i = 1; i <= QUANTITY_PLACES; i++) {
+            parkingPlaces.put(new ParkingPlace(1), false);
+        }
     }
 
-    public ArrayList<ParkingPlace> getParkingPlaces() {
+    public Map<ParkingPlace, Boolean> getParkingPlaces() {
         return parkingPlaces;
-    }
-
-    public void setParkingPlaces(ArrayList<ParkingPlace> parkingPlaces) {
-        this.parkingPlaces = parkingPlaces;
     }
 
 
     public synchronized ParkingPlace freeParkingPlace() {
-        for (ParkingPlace parkingPlaceOne : this.parkingPlaces) {
-            if (parkingPlaceOne.getCar() == null) {
-                return parkingPlaceOne;
-            }
+        var place = parkingPlaces.entrySet().stream().filter(item -> !item.getValue()).findFirst();
+        if(place.isPresent()) {
+            place.get().setValue(true);
+            return place.get().getKey();
         }
         return null;
     }
